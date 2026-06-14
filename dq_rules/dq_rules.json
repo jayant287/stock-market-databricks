@@ -1,0 +1,136 @@
+{
+  "financials_reported": {
+    "critical": {
+      "symbol_not_null": "symbol IS NOT NULL",
+      "cik_not_null": "cik IS NOT NULL",
+      "access_number_not_null": "accessNumber IS NOT NULL",
+      "year_valid": "year >= 1990 AND year <= year(current_date()) + 1",
+      "quarter_valid": "quarter BETWEEN 0 AND 4",
+      "value_not_null": "value IS NOT NULL",
+      "concept_not_null": "concept IS NOT NULL"
+    },
+    "warn": {
+      "start_before_end": "startDate <= endDate",
+      "filed_after_end": "filedDate >= endDate",
+      "ingest_timestamp_set": "ingest_timestamp IS NOT NULL"
+    }
+  },
+
+  "metric_annual": {
+    "critical": {
+      "symbol_not_null": "symbol IS NOT NULL",
+      "metric_type_not_null": "metric_type IS NOT NULL",
+      "period_not_null": "period IS NOT NULL",
+      "value_not_null": "v IS NOT NULL"
+    },
+    "warn": {
+      "value_finite": "v != 'Infinity' AND v != '-Infinity'",
+      "ingest_timestamp_set": "ingest_timestamp IS NOT NULL"
+    }
+  },
+
+  "metric_quarterly": {
+    "critical": {
+      "symbol_not_null": "symbol IS NOT NULL",
+      "metric_type_not_null": "metric_type IS NOT NULL",
+      "period_not_null": "period IS NOT NULL",
+      "value_not_null": "v IS NOT NULL"
+    },
+    "warn": {
+      "value_finite": "v != 'Infinity' AND v != '-Infinity'",
+      "ingest_timestamp_set": "ingest_timestamp IS NOT NULL"
+    }
+  },
+
+  "metric_snapshot": {
+    "critical": {
+      "symbol_not_null": "symbol IS NOT NULL",
+      "metric_date_not_null": "metric_date IS NOT NULL",
+      "market_cap_positive": "marketCapitalization > 0",
+      "enterprise_value_positive": "enterpriseValue > 0",
+      "beta_realistic": "beta BETWEEN -5 AND 15"
+    },
+    "warn": {
+      "pe_ttm_realistic": "peTTM IS NULL OR (peTTM BETWEEN -500 AND 2000)",
+      "52wk_high_gte_low": "52WeekHigh >= 52WeekLow",
+      "gross_margin_range": "grossMarginTTM IS NULL OR grossMarginTTM BETWEEN -1 AND 1",
+      "roe_ttm_range": "roeTTM IS NULL OR roeTTM BETWEEN -50 AND 50",
+      "ingest_timestamp_set": "ingest_timestamp IS NOT NULL"
+    }
+  },
+
+  "profile": {
+    "critical": {
+      "symbol_not_null": "symbol IS NOT NULL",
+      "ticker_not_null": "ticker IS NOT NULL",
+      "name_not_null": "name IS NOT NULL",
+      "market_cap_positive": "marketCapitalization > 0",
+      "shares_outstanding_pos": "shareOutstanding > 0"
+    },
+    "warn": {
+      "ipo_date_sane": "ipo IS NULL OR ipo >= '1800-01-01'",
+      "country_not_null": "country IS NOT NULL",
+      "exchange_not_null": "exchange IS NOT NULL",
+      "ingest_timestamp_set": "ingest_timestamp IS NOT NULL"
+    }
+  },
+
+  "quote": {
+    "critical": {
+      "symbol_not_null": "symbol IS NOT NULL",
+      "close_price_positive": "close_price > 0",
+      "event_timestamp_not_null": "event_timestamp IS NOT NULL"
+    },
+    "warn": {
+      "high_gte_low": "high_price >= low_price",
+      "high_gte_close": "high_price >= close_price",
+      "low_lte_close": "low_price <= close_price",
+      "open_price_positive": "open_price > 0",
+      "prev_close_positive": "previous_close_price > 0",
+      "ingest_timestamp_set": "ingest_timestamp IS NOT NULL"
+    }
+  },
+
+  "quote_eh": {
+    "critical": {
+      "symbol_not_null": "symbol IS NOT NULL",
+      "price_positive": "price > 0",
+      "session_date_not_null": "session_date IS NOT NULL",
+      "timestamp_not_null": "timestamp IS NOT NULL"
+    },
+    "warn": {
+      "volume_non_negative": "volume >= 0",
+      "prev_close_positive": "previous_close_price IS NULL OR previous_close_price > 0",
+      "ingest_timestamp_set": "ingest_timestamp IS NOT NULL"
+    }
+  },
+
+  "recommendation": {
+    "critical": {
+      "symbol_not_null": "symbol IS NOT NULL",
+      "period_not_null": "period IS NOT NULL",
+      "analyst_counts_valid": "buy >= 0 AND sell >= 0 AND hold >= 0 AND strongBuy >= 0 AND strongSell >= 0 "
+    },
+    "warn": {
+      "total_analysts_positive": "(buy + sell + hold + strongBuy + strongSell) > 0",
+      "ingest_timestamp_set": "ingest_timestamp IS NOT NULL"
+    }
+  },
+
+  "stock_candles": {
+    "critical": {
+      "symbol_not_null": "symbol IS NOT NULL",
+      "date_not_null": "date IS NOT NULL",
+      "close_positive": "close > 0",
+      "open_positive": "open > 0"
+    },
+    "warn": {
+      "high_gte_low": "high >= low",
+      "high_gte_close": "high >= close",
+      "low_lte_close": "low <= close",
+      "volume_non_neg": "volume >= 0",
+      "date_not_future": "date <= current_date()",
+      "ingest_timestamp_set": "ingest_timestamp IS NOT NULL"
+    }
+  }
+}
