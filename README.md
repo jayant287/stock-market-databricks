@@ -37,7 +37,8 @@ The watchlist of symbols used for real-time trade streaming includes major large
 
 The diagram below describes the full flow of data through the platform, from ingestion to dashboards.
 
-<img width="1553" height="748" alt="image" src="https://github.com/user-attachments/assets/71ac4b55-bf75-4410-86c2-3b0fb372d93b" />
+<img width="1549" height="741" alt="image" src="https://github.com/user-attachments/assets/7ebb91ef-ad8b-4f55-95b1-749a6b7ad800" />
+
 
 
 ### Architecture Narrative
