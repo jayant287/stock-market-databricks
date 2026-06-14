@@ -52,6 +52,23 @@ The diagram below describes the full flow of data through the platform, from ing
 
 ---
 
+## Technology Stack
+
+| Component | Technology |
+|---|---|
+| Compute & Orchestration (transformations) | Databricks Spark Declarative Pipelines (Lakeflow Declarative Pipelines) |
+| Storage | Delta Lake on Azure Data Lake Storage Gen2 (ADLS Gen2) |
+| Batch Ingestion Orchestration | Azure Data Factory |
+| File Ingestion Mechanism | Databricks Auto Loader (`cloudFiles`) with schema evolution (`rescue` mode) |
+| Real-Time Ingestion | Finnhub WebSocket → Azure Event Hubs (Kafka protocol) → Spark Structured Streaming |
+| Governance & Cataloging | Unity Catalog (`stock_market` catalog; `bronze`, `silver`, `gold`, `quarantine` schemas) |
+| Data Quality | Centralized JSON rules engine (`dq_rules.json`) + Databricks pipeline expectations |
+| Change Management | Auto CDC Flows (SCD Type 1 and Type 2) |
+| Data Source | Finnhub Stock API (REST + WebSocket) |
+| Language | Python (PySpark) and SQL |
+
+---
+
 ## Catalog & Schema Organization
 
 All tables live under a single Unity Catalog catalog named **`stock_market`**, organized into the following schemas:
@@ -712,20 +729,3 @@ The Gold layer is designed to power BI dashboards covering:
 - **Stock valuation and risk metrics** — P/E, P/B, Beta-based risk category, profitability score, dividend yield, multi-period returns (`gold_fact_stock_metrics`)
 - **Analyst sentiment** — consensus rating, bullish score, percentage of strong buy recommendations (`gold_fact_analyst_signal`)
 - **Live intraday trading activity** — minute-by-minute OHLCV, price drift, and anomaly flags for real-time monitoring (`fact_realtime_agg`)
-
----
-
-## Technology Stack
-
-| Component | Technology |
-|---|---|
-| Compute & Orchestration (transformations) | Databricks Spark Declarative Pipelines (Lakeflow Declarative Pipelines) |
-| Storage | Delta Lake on Azure Data Lake Storage Gen2 (ADLS Gen2) |
-| Batch Ingestion Orchestration | Azure Data Factory |
-| File Ingestion Mechanism | Databricks Auto Loader (`cloudFiles`) with schema evolution (`rescue` mode) |
-| Real-Time Ingestion | Finnhub WebSocket → Azure Event Hubs (Kafka protocol) → Spark Structured Streaming |
-| Governance & Cataloging | Unity Catalog (`stock_market` catalog; `bronze`, `silver`, `gold`, `quarantine` schemas) |
-| Data Quality | Centralized JSON rules engine (`dq_rules.json`) + Databricks pipeline expectations |
-| Change Management | Auto CDC Flows (SCD Type 1 and Type 2) |
-| Data Source | Finnhub Stock API (REST + WebSocket) |
-| Language | Python (PySpark) and SQL |
